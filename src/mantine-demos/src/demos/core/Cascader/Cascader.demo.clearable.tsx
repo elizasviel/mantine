@@ -7,9 +7,7 @@ const code = `
 import { Cascader } from '@mantine/core';
 
 function Demo() {
-  const [value, setValue] = useState<string[] | null>(null);
-
-  return <Cascader value={value} onChange={setValue} />;
+  return <Cascader clearable />;
 }
 `;
 

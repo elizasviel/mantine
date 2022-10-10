@@ -223,26 +223,24 @@ export const Cascader = forwardRef<HTMLInputElement, CascaderProps>((props, ref)
   });
 
   const selectedValue = findSelectedValue(formattedData, _value);
-  const [inputValue, setInputValue] = useState(getValueFromIndexes(formattedData, selectedValue));
+  const selectedValueString = getValueFromIndexes(formattedData, selectedValue)?.join(separator) || '';
+  const [inputValue, setInputValue] = useUncontrolled({
+    value: selectedValueString,
+    defaultValue: selectedValueString,
+    finalValue: undefined,
+  });
 
   const handleClear = () => {
     handleChange(null);
     if (!controlled) {
-      setInputValue(null);
+      setInputValue('');
     }
     inputRef.current?.focus();
   };
 
   useEffect(() => {
-    const newSelectedValue = findSelectedValue(formattedData, _value);
-    newSelectedValue && setHovered(newSelectedValue);
-
-    if (newSelectedValue) {
-      setInputValue(getValueFromIndexes(formattedData, newSelectedValue));
-    } else if (!_value) {
-      setInputValue(null);
-    }
-  }, [_value]);
+    setInputValue(selectedValueString);
+  }, [_value?.toString()]);
 
   const getNextIndex = (
     indexes: number[],
@@ -279,7 +277,7 @@ export const Cascader = forwardRef<HTMLInputElement, CascaderProps>((props, ref)
       handleChange(newValue);
 
       if (!controlled) {
-        setInputValue(newValue);
+        setInputValue(newValue?.join(separator));
       }
       setHovered((prev) => [...prev, index]);
       setDropdownOpened(false);

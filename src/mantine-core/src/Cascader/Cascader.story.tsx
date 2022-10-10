@@ -43,7 +43,7 @@ export function Controlled() {
         <Button variant="outline" onClick={() => setValue(null)}>
           Set null
         </Button>
-        <Button variant="outline" onClick={() => setValue(['react'])}>
+        <Button variant="outline" onClick={() => setValue(['I love', 'react'])}>
           Set value
         </Button>
       </Group>
